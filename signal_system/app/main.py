@@ -1,11 +1,11 @@
 # app/main.py
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-
 from app.database import engine
 from app.models import Base
 from app.scheduler import start_scheduler
 from app.routers import signals
+from app.routers import data_api # Yukarıdaki dosyayı kaydettiğin isim
 
 # Veritabani tablolarinin varligini garanti altina al (Bulutta zaten var)
 Base.metadata.create_all(bind=engine)
@@ -24,6 +24,7 @@ app = FastAPI(
 )
 
 app.include_router(signals.router)
+app.include_router(data_api.router)
 
 @app.get("/")
 def root():
